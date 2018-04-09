@@ -1,7 +1,8 @@
 <template>
   <div class="choice-ml">
+    <!--이친구도 자식컴포넌트로 넣어버리자 일관성있게 -->
     <transition name="fade" mode="out-in">
-    <div id="choice-ml" v-on:click="selectMajor" v-if="choice">
+    <div id="choice-ml" v-on:click="selectMajor" v-if="choiceMl">
       <div id="title">
         <h2>어느 과목 먼저 볼래요?</h2>
       </div>
@@ -13,15 +14,14 @@
       </div>
     </div>
     </transition>
+
+    <!-- 전공, 학년선택 뷰-->
     <div id="container">
       <keep-alive>
         <transition name="fade" mode="out-in">
-          <component v-bind:is="currentView"></component>
+          <component v-on:view="changeView($event)" v-bind:is="currentView"></component>
         </transition>
       </keep-alive>
-      <!--button없애고 전공입력후 enter키 치면 학년 뷰로 넘어가도록 -->
-      <button v-on:click="currentView='major-select'">Show major select</button>
-      <button v-on:click="currentView='grade'">Show Grade</button>
     </div>
   </div>
 </template>
@@ -37,16 +37,18 @@ export default {
   },
   data () {
     return {
-      choice: true,
-      major: true,
+      choiceMl: true,
       currentView: null
     }
   },
   methods: {
+    // 전공-교양 선택 뷰에서 전공입력 뷰로 넘어갑니다
     selectMajor: function () {
-      this.major = true
-      this.choice = false
+      this.choiceMl = false
       this.currentView = 'major-select'
+    },
+    changeView: function (view) {
+      this.currentView = view
     }
   }
 }

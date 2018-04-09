@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     transitionToChoice: function () {
-      this.$emit('transitionToChoice', false)
+      this.$emit('view', 'choice')
     }
   }
 }

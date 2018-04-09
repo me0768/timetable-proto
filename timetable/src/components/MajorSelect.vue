@@ -2,7 +2,7 @@
   <div class="major-select">
       <div class="centered">
         <div class="group autocomplete">
-          <input autocomplete="name" name="name" type="text" id="major-select" required="required"/>
+          <input name="name" type="text" id="major-select" v-on:keyup.enter="transitionToGrade" required="required"/>
           <label for="name">전공이무엇인가요?</label>
         <div class="bar"></div>
       </div>
@@ -16,8 +16,21 @@ export default {
   name: 'major-select',
   data () {
     return {
-      show: true
+      majors : []
     }
+  },
+  methods: {
+    transitionToGrade: function () {
+      this.$emit('view', 'grade')
+    }
+  },
+
+  beforeCreate: function () {
+    const baseURI = 'https://jsonplaceholder.typicode.com'
+      this.$http.get(`${baseURI}/posts`)
+      .then((result) => {
+        console.log(result)
+      })
   }
 }
 </script>
@@ -51,6 +64,7 @@ label {
   font: 400 36.6666666667px Roboto;
   cursor: text;
   transition: .25s ease;
+  pointer-events: none;
 }
 
 input {
