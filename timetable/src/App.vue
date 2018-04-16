@@ -2,42 +2,60 @@
   <div id="app">
     <keep-alive>
         <transition name="fade" mode="out-in">
-          <component v-on:view="changeView($event)" v-bind:is="currentView"></component>
+          <router-view></router-view>
         </transition>
       </keep-alive>
   </div>
 </template>
 
 <script>
-import Campus from './components/Campus.vue'
-import Choice from './components/ChoiceMajorLiberal.vue'
+/* eslint-disable*/
 export default {
   name: 'App',
-  components: {
-    'campus': Campus,
-    'choice': Choice
-  },
   data () {
-    return {
-      currentView: 'campus'
-    }
-  },
-  methods: {
-    changeView: function (view) {
-      this.currentView = view
+    return {  
+      campus: "",
+      major: ""
     }
   }
 }
+
 </script>
 
 <style>
+html, body{
+  background: #80cbc4;
+  color: white;
+  margin: 0 0;
+}
+button:focus {
+  outline: none;
+}
+.fa {
+  display: inline-block;
+}
+/* scrollbar 없애기 */
+#element::-webkit-scrollbar { 
+    display: none; 
+}
+body {
+  overflow-y: hidden; 
+  overflow-x: hidden;
+}
+@font-face {
+  font-family: 'NanumSquareRoundR';
+  src: url('./assets/NanumSquareRoundR.ttf');
+}
+@font-face {
+  font-family: 'NanumSquareRoundB';
+  src: url('./assets/NanumSquareRoundB.ttf');
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'NanumSquareRoundR';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: white;
 }
 
 .fade-enter-active, .fade-leave-active {

@@ -4,10 +4,10 @@
       <h1>어느 캠퍼스인가요?</h1>
     </div>
     <div id="seoul">
-      <img v-on:click="transitionToChoice" src="../assets/seoul.png">
+      <router-link to="/choice" exact><img v-on:click="saveCampus('서울')" src="../assets/seoul.png"></router-link>
     </div>
     <div id="erica">
-      <img src="../assets/erica.jpg">
+      <router-link to="/choice" exact><img v-on:click="saveCampus('Erica')" src="../assets/erica.jpg"></router-link>
     </div>
   </div>
 </template>
@@ -17,12 +17,15 @@ export default {
   name: 'Campus',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      campus: ""
     }
   },
   methods: {
-    transitionToChoice: function () {
-      this.$emit('view', 'choice')
+    saveCampus: function (campus) {
+      //this.campus = campus
+      //this.$emit('campus',this.campus)
+      console.log("campus:"+campus)
+      this.$store.commit('setCampus', campus)
     }
   }
 }
@@ -30,6 +33,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1{
+  margin: 60px 0;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -43,14 +49,14 @@ a {
 }
 #seoul, #erica {
   display: inline-block;
-  width: 48vw;
-  margin: 0 0;
+  width: 38vw;
+  margin: 0 10px;
   padding: 0 0;
-  cursor: pointer;
 }
 #seoul img, #erica img{
-  width: 48vw;
-  height: 80vh;
+  width: 38vw;
+  height: 60vh;
+  cursor: pointer;
 }
 #seoul img:hover, #erica img:hover{
   opacity: 0.7;

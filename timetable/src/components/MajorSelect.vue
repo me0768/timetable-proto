@@ -3,17 +3,22 @@
       <div class="centered">
         <div class="group autocomplete">
           <input name="name" type="text" id="major-select" v-on:keyup.enter="transitionToGrade" required="required"/>
-          <label for="name">전공이무엇인가요?</label>
+          <label for="name">전공이 무엇인가요?</label>
         <div class="bar"></div>
       </div>
     </div>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 /* eslint-disable*/
+import Footer from './Footer.vue'
 export default {
   name: 'major-select',
+  components: {
+    'app-footer': Footer
+  },
   data () {
     return {
       majors : []
@@ -21,10 +26,13 @@ export default {
   },
   methods: {
     transitionToGrade: function () {
-      this.$emit('view', 'grade')
+      /*전공 입력값 저장하고 Grade페이지로 넘어가기*/
+      var major = document.getElementById('major-select').value
+      this.$store.commit('setMajor', major)
+      document.location.href = "/#/grade";
     }
   },
-
+  //data받아오기 test 
   beforeCreate: function () {
     const baseURI = 'https://jsonplaceholder.typicode.com'
       this.$http.get(`${baseURI}/posts`)
@@ -41,6 +49,9 @@ export default {
   box-sizing: border-box;
 }
 
+.major-select {
+  margin-top: 30vh;
+}
 .centered {
   width: 550px;
   height: 110px;
@@ -59,9 +70,9 @@ export default {
 label {
   position: absolute;
   top: 36.6666666667px;
-  left: 0;
-  color: rgba(88, 88, 88, 0.5);
-  font: 400 36.6666666667px Roboto;
+  left: 10px;
+  color: white;
+  font: 400 36.6666666667px 'NanumSquareRoundB';
   cursor: text;
   transition: .25s ease;
   pointer-events: none;
@@ -73,13 +84,15 @@ input {
   padding-top: 60px;
   border: none;
   border-radius: 0;
-  color: #f06292;
+  color: #199fa7;
   font-size: 36.6666666667px;
+  font-family: 'NanumSquareRoundR';
   transition: .3s ease;
+  background: #80cbc4;
 }
 input:valid ~ label {
   top: 0;
-  font: 700 22px Roboto;
+  font: 700 22px 'NanumSquareRoundR';
   color: rgba(255, 255, 255, 0.5);
 }
 input:focus {
@@ -87,8 +100,8 @@ input:focus {
 }
 input:focus ~ label {
   top: 0;
-  font: 700 22px Roboto;
-  color: #f06292;
+  font: 700 22px 'NanumSquareRoundR';
+  color: #199fa7;
 }
 input:focus ~ .bar:before {
   transform: translateX(-50%);
@@ -99,7 +112,7 @@ input:-webkit-autofill {
 }
 
 .bar {
-  background: rgba(88, 88, 88, 0.5);
+  background: white;
   content: '';
   width: 550px;
   height: 3.6666666667px;
@@ -111,7 +124,7 @@ input:-webkit-autofill {
   position: absolute;
   width: 100%;
   height: 150%;
-  background: #f06292;
+  background: #199fa7;
   transform: translateX(-150%);
 }
 

@@ -1,37 +1,38 @@
 <template>
   <div class="choice-ml">
-    <!--이친구도 자식컴포넌트로 넣어버리자 일관성있게 -->
     <transition name="fade" mode="out-in">
-    <div id="choice-ml" v-on:click="selectMajor" v-if="choiceMl">
-      <div id="title">
-        <h2>어느 과목 먼저 볼래요?</h2>
+      <div id="choice-ml">
+        <div id="title">
+          <h2 id="question">어느 과목 먼저 볼래요?</h2>
+        </div>
+        <router-link to="/major" exact>
+          <div id="major">
+            <h1>전공</h1>
+          </div>
+        </router-link>
+        <div id="liberal">
+          <h1>교양</h1>
+        </div>
       </div>
-      <div id="major">
-        <h1>전공</h1>
-      </div>
-      <div id="liberal">
-        <h1>교양</h1>
-      </div>
-    </div>
     </transition>
 
-    <!-- 전공, 학년선택 뷰-->
+    <!-- 전공, 학년선택 뷰
     <div id="container">
       <keep-alive>
         <transition name="fade" mode="out-in">
           <component v-on:view="changeView($event)" v-bind:is="currentView"></component>
         </transition>
       </keep-alive>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import MajorSelect from './MajorSelect.vue'
-import Grade from './Grade.vue'
+/*import MajorSelect from './MajorSelect.vue'
+import Grade from './Grade.vue'*/
 
 export default {
-  components: {
+  /*components: {
     'major-select': MajorSelect,
     'grade': Grade
   },
@@ -50,32 +51,38 @@ export default {
     changeView: function (view) {
       this.currentView = view
     }
-  }
+  }*/
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /*this css code has to be changed later */
+a {
+  color: white;
+  text-decoration: none;
+}
+#question {
+  font-size: 2rem;
+  margin: 100px 0;
+}
 #major, #liberal {
     display: inline-block;
-    width: 48vw;
-    height: 80vh;
-    border-right: 1px solid lightgray;
+    width: 24vw;
+    height: 30vh;
 }
-#major:hover{
-  background: #fce4ec;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  cursor: pointer;
+#major {
+  border-right: 1px solid lightgray;
 }
-#liberal:hover{
-  background: #e1f5fe;
+#major:hover, #liberal:hover{
+  background: #65bbb3;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 13px;
   cursor: pointer;
 }
 
 h1{
-  padding-top: 40vh;
+  padding-top: 10vh;
 }
 
 .fade-enter-active, .fade-leave-active {

@@ -1,90 +1,194 @@
 <template>
-  <div class="center" id="grade">
-    <h1>몇학년 과목을 볼까요?</h1>
-    <div id="grades" class="grades">
-      <button class="button" v-bind:class="{active : isActive1}" v-on:click="addSelected(1)">1</button>
-      <button class="button" v-bind:class="{active : isActive2}" v-on:click="addSelected(2)">2</button>
-      <button class="button" v-bind:class="{active : isActive3}" v-on:click="addSelected(3)">3</button>
-      <button class="button" v-bind:class="{active : isActive4}" v-on:click="addSelected(4)">4</button>
+  <div v-on:mouseup="modalClose">
+    <transition name="list">
+      <app-header v-if="appHeader" v-bind:selectedList="selectedList"></app-header>
+    </transition>
+    <div id="grade" v-bind:style="{ 'margin-top' : marginTop }">
+      <h1 id="question" v-if="question">[{{ campus }} {{major}}]몇학년 과목을 볼까요?</h1>
+      <div id="grades" class="grades">
+        <button class="button" v-bind:class="{active : isActive1}" v-on:click="toggleSelected(1)">1</button>
+        <button class="button" v-bind:class="{active : isActive2}" v-on:click="toggleSelected(2)">2</button>
+        <button class="button" v-bind:class="{active : isActive3}" v-on:click="toggleSelected(3)">3</button>
+        <button class="button" v-bind:class="{active : isActive4}" v-on:click="toggleSelected(4)">4</button>
+      </div>
+      <div id="panels">
+          <div class="panel1" v-if="isActive1">
+            <ul>
+              <li v-for="subject in subjects"><card v-bind:subject="subject" v-on:subject="addToHeader($event)"></card></li>
+            </ul>
+            <!-- <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card>
+            <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card> -->
+          </div>
+          <div class="panel2" v-if="isActive2">컴포넌트2</div>
+          <div class="panel3" v-if="isActive3">컴포넌트3</div>
+          <div class="panel4" v-if="isActive4">컴포넌트4</div>
+        </div>
+      </div>
+      <app-footer></app-footer>
     </div>
-    <div id="panels">
-      <div id="grade1"></div>
-      <div id="grade2"></div>
-    </div>
-  </div>
-</template>
+  </template>
 
-<script>
-/* eslint-disable*/
-export default {
-  name: 'grade',
-  data () {
-    return {
-      isActive1: false,
-      isActive2: false,
-      isActive3: false,
-      isActive4: false,
-      isActive5: false
-    }
-  },
-  methods: {
-    addSelected: function (number) {
-      switch(number) {
-        case 1:
-          this.isActive1 = !this.isActive1;
-          break
-        case 2:
-          this.isActive2 = !this.isActive2
-          break
-        case 3:
-          this.isActive3 = !this.isActive3
-          break
-        case 4:
-          this.isActive4 = !this.isActive4
-          break
-      }
-      this.addPanel(number)
+  <script>
+  /* eslint-disable*/
+  import Header from './Header.vue'
+  import Card from './Card.vue'
+  import Footer from './Footer.vue'
+
+  export default {
+    name: 'grade',
+    components: {
+      'app-header': Header,
+      'card' : Card,
+      'app-footer': Footer
     },
-    addPanel: function (grade) {
-      // move previous items to top 
-      var container = document.getElementById('grade')
-      container.classList.remove("center")
-      var grades = document.getElementById('grades')
-      grades.classList.remove("grades")
-      // add panel
-      var grade1 = document.getElementById('grade1')
-      grade1.style.width = '400px'
-      grade1.style.height = '700px'
-      grade1.style.backgroundColor = 'lightgray'
+    computed: {
+      campus() {
+        return this.$store.state.campus
+      },
+      major(){
+        return this.$store.state.major
+      }
+    },
+    data () {
+      return {
+        isActive1: false,
+        isActive2: false,
+        isActive3: false,
+        isActive4: false,
+        appHeader: false,
+        question: true,
+        marginTop: '25vh',
+        subjects: [
+          {subjectName: '논리적사고', professor: '최원배', grade: '1', department: '정책학과'},
+          {subjectName: '비판적사고', professor: '최원배', grade: '1', department: '정책학과'}
+        ],
+        selectedList: [
+          
+        ]
+      }
+    },
+    methods: {
+      addToHeader: function (subject) {
+        this.appHeader = true
+        for(var i=0;i<this.selectedList.length; i++){
+          if(this.selectedList[i] === subject){
+            this.selectedList.pop(subject)
+            if(this.selectedList.length == 0){
+              this.appHeader = false
+            }
+            return
+          }
+        }
+        this.selectedList.push(subject)
+      },
+      toggleSelected: function (number) {
+        switch(number) {
+          case 1:
+            this.isActive1 = !this.isActive1
+            break
+          case 2:
+            this.isActive2 = !this.isActive2
+            break
+          case 3:
+            this.isActive3 = !this.isActive3
+            break
+          case 4:
+            this.isActive4 = !this.isActive4
+            break
+        }
+        this.moveToTop()
+        if(this.isActive1 == false && this.isActive4 == false && this.isActive3 == false && this.isActive2 == false){
+          this.moveToDown()
+        }
+      },
+      moveToTop: function () {
+        this.marginTop = 0
+        this.question = false
+      },
+      moveToDown: function () {
+        this.marginTop = '25vh'
+        this.question = true
+      },
+      modalClose: function (e){
+        var checkbox = document.getElementById('modal__trigger');
+        if(checkbox.checked == true){
+        var modal = document.getElementById('modal_dialog')
+        console.log(modal)
+        console.log(e.currentTarget)
+        if(e.target !== modal)
+          checkbox.checked = false
+        }
+      }
     }
   }
-}
-</script>
+  </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.center {
-  margin-top: 30vh;
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+  #question{
+    font-size: 2rem;
+  }
+
+  .grades {
+    margin-top: 10vh;
+  }
+  #grade {
+    -webkit-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      transition: margin-top 0.4s ease;
+    height: 62vh;
+  }
+  ul {
+    padding: 0 0 ;
+  }
+  li{
+    list-style: none;
+  }
+  .button {
+    background-color: #48a9a0;
+    color: white;
+    width: 80px;
+    height: 80px;
+    margin: 0 120px;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 10px;
+  } 
+  .button:hover{
+    background-color: #6dbbb4;
+  }
+  .active, .active:hover {
+    background-color: #ff8f9e;
+  }
+
+  #panels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(300px, auto);
+    grid-column-gap: 10px;
+    width: 80vw;
+    height: 65vh;
+    margin: 0 auto;
+    margin-top: 5vh;
+  }
+  #panels > div {
+  border: 2px solid #6dbbb4;
+  border-radius: 5px;
+  padding: 1em;
 }
-.grades {
-  margin-top: 10vh;
+#panels > .panel2 {
+  grid-column: 2 / span 1;
+}
+#panels > .panel3 {
+  grid-column: 3 / span 1;
+}
+#panels > .panel4 {
+  grid-column: 4 / span 1;
 }
 
-.button {
-  background-color: #2A363B;
-  color: white;
-  width: 80px;
-  height: 80px;
-  margin: 0 60px;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-} 
-.active {
-  background-color: #E84A5F;
-}
-
-/* fade effect */
+/* transition effect */
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
@@ -97,5 +201,12 @@ export default {
 
 .fade-enter, .fade-leave {
   opacity: 0;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 0.5s;
+}
+.list-enter, .list-leave-active {
+  opacity: 0;
+  transform: translateY(-40px);
 }
 </style>
