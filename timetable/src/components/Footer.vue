@@ -1,12 +1,13 @@
 <template>
-	<nav>
+	<div class="footer" v-bind:class=" {expand: expanded} ">
+        <div class="expand-btn" @click="expand"> <i class="fa fa-expand" aria-hidden="true"></i></div>
 		<div class="subjects">
             <ul v-for='item in selectedList'>
                 <li>{{ item }} <i class="fa fa-times" v-on:click="addAndRemoveItem(item)" id="remove-btn" aria-hidden="true"></i></li>
             </ul>
         </div>
         <button id="btn-comb">조합하기</button>
-	</nav>
+	</div>
 </template>
 
 <script>
@@ -21,15 +22,40 @@ export default{
         addAndRemoveItem: function (item) {
             this.$emit('subject', item);
             //eventbus써야함 //this.isSelected = !this.isSelected;
+        },
+        expand: function(){
+            this.expanded = !this.expanded
         }
+    },
+    data () {
+      return {
+        expanded: false
+      }
     }
 }
 </script>
 
 <style scoped>
-nav{
+.footer{
+    background:#2e9087;
+    padding: 14px 0;
+    height: 4vh;
+    z-index: 100;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     transition: transform 0.6s;
 	transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+}
+.expand {
+    height: 96vh;
+}
+.expand-btn {
+    display: inline-block;
+    position: absolute;
+    left: 30px;
+    cursor: pointer;
 }
 ul{
     list-style-type: none;
@@ -50,11 +76,7 @@ a{
     padding: 6px 8px;
     border-radius: 10px;
 }
-nav{
-    background:#2e9087;
-    padding: 14px 0;
-    height: 30px;
-}
+
 .router-link-active{
     background: #eee;
     color: #65bbb3;
@@ -62,6 +84,7 @@ nav{
 .subjects {
     display: inline-block;
     width: 80vw;
+
 }
 #remove-btn{
     font-size: 0.8em;

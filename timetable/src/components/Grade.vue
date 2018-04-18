@@ -1,6 +1,6 @@
 <template>
   <div v-on:mouseup="modalClose">
-      <app-header v-bind:majorPage="majorPage"></app-header>
+    <app-header v-bind:majorPage="majorPage"></app-header>
     <div id="grade" v-bind:style="{ 'margin-top' : marginTop }">
       <p></p>
       <h1 id="question" v-if="question">몇학년 과목을 볼까요?</h1>
@@ -11,19 +11,18 @@
         <button class="button" v-bind:class="{active : isActive4}" v-on:click="toggleSelected(4)">4</button>
       </div>
       <div id="panels">
-          <div class="panel1" v-if="isActive1">
-            <ul>
-              <li v-for="subject in subjects"><card v-bind:subject="subject" v-on:subject="addAndRemoveItem($event)"></card></li>
-            </ul>
-            <!-- <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card>
-            <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card> -->
-          </div>
-          <div class="panel2" v-if="isActive2">컴포넌트2</div>
-          <div class="panel3" v-if="isActive3">컴포넌트3</div>
-          <div class="panel4" v-if="isActive4">컴포넌트4</div>
+        <div class="panel1" v-if="isActive1">
+          <ul>
+            <li v-for="subject in subjects"><card v-bind:subject="subject" v-on:subject="addAndRemoveItem($event)"></card></li>
+          </ul>
+          <!-- <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card>
+          <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card> -->
         </div>
+        <div class="panel2" v-if="isActive2">컴포넌트2</div>
+        <div class="panel3" v-if="isActive3">컴포넌트3</div>
+        <div class="panel4" v-if="isActive4">컴포넌트4</div>
       </div>
-
+    </div>
     <transition name="list">
       <app-footer v-if="appFooter" v-bind:selectedList="selectedList" v-on:subject="addAndRemoveItem($event)"></app-footer>
     </transition>
@@ -135,7 +134,7 @@
       -moz-transition: all 0.4s ease;
       -o-transition: all 0.4s ease;
       transition: margin-top 0.4s ease;
-    height: 81.3vh;
+    height: 86vh;
   }
   ul {
     padding: 0 0 ;

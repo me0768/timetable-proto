@@ -62,6 +62,7 @@ export default {
   background-color: #b5efe9;
   color: #1995ad;
   border-radius: 6px;
+  border: 2px solid transparent;
   margin: 3px 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
