@@ -2,7 +2,7 @@
     <div v-on:mouseup="modalClose">
     <app-header v-if="appHeader" v-bind:subject="subject"></app-header>
         <div id="grade" class="center">
-        <h1 id="question" v-if="question">몇학년 과목을 볼까요?</h1>
+        <h1 id="question" v-if="question">교양선택 페이지 입니다</h1>
         
         <div id="panels">,
             <div class="panel1" v-if="isActive1">

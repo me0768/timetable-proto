@@ -1,27 +1,28 @@
 <template>
   <div class="major-select">
-      <div class="centered">
+    <app-header v-bind:majorPage="majorPage"></app-header>
+    <div class="centered">
         <div class="group autocomplete">
           <input name="name" type="text" id="major-select" v-on:keyup.enter="transitionToGrade" required="required"/>
           <label for="name">전공이 무엇인가요?</label>
         <div class="bar"></div>
       </div>
     </div>
-    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 /* eslint-disable*/
-import Footer from './Footer.vue'
+import Header from './Header.vue'
 export default {
   name: 'major-select',
   components: {
-    'app-footer': Footer
+    'app-header': Header
   },
   data () {
     return {
-      majors : []
+      majors : [],
+      majorPage: false
     }
   },
   methods: {
@@ -33,13 +34,20 @@ export default {
     }
   },
   //data받아오기 test 
-  beforeCreate: function () {
-    const baseURI = 'https://jsonplaceholder.typicode.com'
-      this.$http.get(`${baseURI}/posts`)
-      .then((result) => {
-        console.log(result)
-      })
-  }
+  // beforeCreate: function () {
+  //   const baseURI = 'https://jsonplaceholder.typicode.com'
+  //     this.$http.get(`${baseURI}/posts`)
+  //     .then((result) => {
+  //       console.log(result)
+  //     })
+  // }
+  // beforeCreate: function () {
+  //   const baseURI = 'http://localhost:8081/static'
+  //   this.$http.get(`${baseURI}/2018-04-08/전공/정책학과 1학년.json`)
+  //      .then((result) => {
+  //        console.log(result)
+  //      })
+  // }
 }
 </script>
 

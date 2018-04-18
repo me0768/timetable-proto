@@ -1,10 +1,9 @@
 <template>
   <div v-on:mouseup="modalClose">
-    <transition name="list">
-      <app-header v-if="appHeader" v-bind:selectedList="selectedList"></app-header>
-    </transition>
+      <app-header v-bind:majorPage="majorPage"></app-header>
     <div id="grade" v-bind:style="{ 'margin-top' : marginTop }">
-      <h1 id="question" v-if="question">[{{ campus }} {{major}}]몇학년 과목을 볼까요?</h1>
+      <p></p>
+      <h1 id="question" v-if="question">몇학년 과목을 볼까요?</h1>
       <div id="grades" class="grades">
         <button class="button" v-bind:class="{active : isActive1}" v-on:click="toggleSelected(1)">1</button>
         <button class="button" v-bind:class="{active : isActive2}" v-on:click="toggleSelected(2)">2</button>
@@ -14,7 +13,7 @@
       <div id="panels">
           <div class="panel1" v-if="isActive1">
             <ul>
-              <li v-for="subject in subjects"><card v-bind:subject="subject" v-on:subject="addToHeader($event)"></card></li>
+              <li v-for="subject in subjects"><card v-bind:subject="subject" v-on:subject="addAndRemoveItem($event)"></card></li>
             </ul>
             <!-- <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card>
             <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card> -->
@@ -24,7 +23,10 @@
           <div class="panel4" v-if="isActive4">컴포넌트4</div>
         </div>
       </div>
-      <app-footer></app-footer>
+
+    <transition name="list">
+      <app-footer v-if="appFooter" v-bind:selectedList="selectedList" v-on:subject="addAndRemoveItem($event)"></app-footer>
+    </transition>
     </div>
   </template>
 
@@ -33,6 +35,7 @@
   import Header from './Header.vue'
   import Card from './Card.vue'
   import Footer from './Footer.vue'
+  import testdata from '../assets/2018-04-08/전공/정책학과/정책학과 1학년.json'
 
   export default {
     name: 'grade',
@@ -41,21 +44,15 @@
       'card' : Card,
       'app-footer': Footer
     },
-    computed: {
-      campus() {
-        return this.$store.state.campus
-      },
-      major(){
-        return this.$store.state.major
-      }
-    },
     data () {
       return {
+        majorPage:true,
         isActive1: false,
+        testdata,
         isActive2: false,
         isActive3: false,
         isActive4: false,
-        appHeader: false,
+        appFooter: false,
         question: true,
         marginTop: '25vh',
         subjects: [
@@ -68,13 +65,13 @@
       }
     },
     methods: {
-      addToHeader: function (subject) {
-        this.appHeader = true
+      addAndRemoveItem: function (subject) {
+        this.appFooter = true
         for(var i=0;i<this.selectedList.length; i++){
           if(this.selectedList[i] === subject){
             this.selectedList.pop(subject)
             if(this.selectedList.length == 0){
-              this.appHeader = false
+              this.appFooter = false
             }
             return
           }
@@ -82,6 +79,7 @@
         this.selectedList.push(subject)
       },
       toggleSelected: function (number) {
+        console.log(testdata)
         switch(number) {
           case 1:
             this.isActive1 = !this.isActive1
@@ -130,14 +128,14 @@
   }
 
   .grades {
-    margin-top: 10vh;
+    margin-top: 5vh;
   }
   #grade {
     -webkit-transition: all 0.4s ease;
       -moz-transition: all 0.4s ease;
       -o-transition: all 0.4s ease;
       transition: margin-top 0.4s ease;
-    height: 62vh;
+    height: 81.3vh;
   }
   ul {
     padding: 0 0 ;
@@ -207,6 +205,6 @@
 }
 .list-enter, .list-leave-active {
   opacity: 0;
-  transform: translateY(-40px);
+  transform: translateY(40px);
 }
 </style>

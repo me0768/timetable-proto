@@ -13,7 +13,7 @@
     <div class="modal" id="text">
         <input id="modal__trigger" type="checkbox" />
         <label for="modal__trigger">{{ subject.subjectName }}</label>
-        <i class="fa fa-plus" id="add" v-on:click="addToHeader" aria-hidden="true"></i>
+        <i class="fa fa-plus" id="add" v-on:click="addAndRemoveItem" aria-hidden="true"></i>
         <p>{{ subject.professor }} 교수님</p>
         <subject-detail></subject-detail>
     </div>
@@ -43,7 +43,7 @@ export default {
     }
   },
   methods: {
-    addToHeader: function () {
+    addAndRemoveItem: function () {
       this.$emit('subject', this.subject.subjectName);
       this.isSelected = !this.isSelected;
     }
