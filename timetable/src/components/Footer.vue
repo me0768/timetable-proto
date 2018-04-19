@@ -2,7 +2,7 @@
 	<div class="footer" v-bind:class=" {expand: expanded} ">
         <div class="expand-btn" @click="expand"> <i class="fa fa-expand" aria-hidden="true"></i></div>
 		<div class="subjects">
-            <ul v-for='item in selectedList'>
+            <ul v-for='item in userLectures'>
                 <li>{{ item }} <i class="fa fa-times" v-on:click="addAndRemoveItem(item)" id="remove-btn" aria-hidden="true"></i></li>
             </ul>
         </div>
@@ -14,7 +14,7 @@
 /* eslint-disable*/
 export default{
     props: {
-         selectedList: {
+         userLectures: {
             type: Array
          }
     },

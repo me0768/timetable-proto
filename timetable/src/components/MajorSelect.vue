@@ -29,7 +29,7 @@ export default {
     transitionToGrade: function () {
       /*전공 입력값 저장하고 Grade페이지로 넘어가기*/
       var major = document.getElementById('major-select').value
-      this.$store.commit('setMajor', major)
+      this.$store.commit('updateMajor', major)
       document.location.href = "/#/grade";
     }
   },

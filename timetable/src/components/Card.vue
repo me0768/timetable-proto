@@ -1,20 +1,15 @@
 <template>
   <div class="card" v-bind:class="{ 'selected' : isSelected }">
     <div id="image">
-      <img src="../assets/professor.jpg" alt="professor">
+      <!-- <img src="../assets/professor.jpg" alt="professor"> -->
     </div>
-    <!--
-    <div id="text">
-      <h3>{{ subjectName }}</h3>
-      <p>{{ professorName }} 교수님</p>
-    </div> -->
 
     <!--과목 이름/교수님 : 클릭하면 모달창open -->
     <div class="modal" id="text">
         <input id="modal__trigger" type="checkbox" />
-        <label for="modal__trigger">{{ subject.subjectName }}</label>
+        <label for="modal__trigger">{{subject}}</label>
         <i class="fa fa-plus" id="add" v-on:click="addAndRemoveItem" aria-hidden="true"></i>
-        <p>{{ subject.professor }} 교수님</p>
+        <p>{{ lecture[subject][0]['daepyoGangsaNm'] }} 교수님</p>
         <subject-detail></subject-detail>
     </div>
   </div>
@@ -33,8 +28,19 @@ export default {
     //subjects: {
     //  type:Array
     //},
-    subject: {
-      type:Object
+    // subject: {
+    //   type:Object
+    // },
+    lecture: {
+      type: Object
+    }
+  },
+  computed: {
+    lectures() {
+      return this.$store.state.lectures
+    },
+    subject(){
+      return Object.keys(this.lecture)[0]
     }
   },
   data () {
@@ -44,7 +50,7 @@ export default {
   },
   methods: {
     addAndRemoveItem: function () {
-      this.$emit('subject', this.subject.subjectName);
+      this.$emit('lecture', this.subject);
       this.isSelected = !this.isSelected;
     }
   }

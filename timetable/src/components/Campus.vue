@@ -25,7 +25,7 @@ export default {
       //this.campus = campus
       //this.$emit('campus',this.campus)
       console.log("campus:"+campus)
-      this.$store.commit('setCampus', campus)
+      this.$store.commit('updateCampus', campus)
     }
   }
 }
