@@ -1,25 +1,46 @@
 <template>
   <div v-on:mouseup="modalClose">
     <app-header v-bind:majorPage="majorPage"></app-header>
-    <div id="grade" v-bind:style="{ 'margin-top' : marginTop }">
-      <h1 id="question" v-if="question">몇학년 과목을 볼까요?</h1>
+    <div id="grade">
+      <h1 id="question" v-if="question">전공선택 페이지입니다</h1>
       <div id="grades" class="grades">
-        <button class="button" v-bind:class="{active : isActive1}" v-on:click="toggleSelected(1)">1</button>
+        <!-- <button class="button" v-bind:class="{active : isActive1}" v-on:click="toggleSelected(1)">1</button>
         <button class="button" v-bind:class="{active : isActive2}" v-on:click="toggleSelected(2)">2</button>
         <button class="button" v-bind:class="{active : isActive3}" v-on:click="toggleSelected(3)">3</button>
-        <button class="button" v-bind:class="{active : isActive4}" v-on:click="toggleSelected(4)">4</button>
-      </div>
-      <div id="panels">
-        <div class="panel1" v-if="isActive1">
-          <ul>
-            <li v-for="lecture in lectures"><card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card></li>
-          </ul>
-          <!-- <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card>
-          <card v-bind:subjects="subjects" v-on:subjects="addToHeader($event)"></card> -->
-        </div>
-        <div class="panel2" v-if="isActive2">컴포넌트2</div>
-        <div class="panel3" v-if="isActive3">컴포넌트3</div>
-        <div class="panel4" v-if="isActive4">컴포넌트4</div>
+        <button class="button" v-bind:class="{active : isActive4}" v-on:click="toggleSelected(4)">4</button> -->
+        <ul class="tabs" role="tablist">
+          <li>
+            <input type="radio" name="tabs" id="tab1" checked />
+            <label for="tab1" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">1학년</label>
+            <div class="back-panel"></div>
+            <div v-for="lecture in lectures" id="tab-content1" class="tab-content" role="tabpanel" aria-labelledby="firstGrade" aria-hidden="false">
+              <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
+            </div>
+          </li>
+          <li>
+            <input type="radio" name="tabs" id="tab2" />
+            <label for="tab2" role="tab" aria-selected="true" aria-controls="panel2" tabindex="0" >2학년</label>
+            <div v-for="lecture in lectures" id="tab-content2" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
+              <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>2학년ㅎ
+            </div>
+          </li>
+          <li>
+            <input type="radio" name="tabs" id="tab3" />
+            <label for="tab3" role="tab" aria-selected="true" aria-controls="panel3" tabindex="0" >3학년</label>
+            <div v-for="lecture in lectures" id="tab-content3" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
+              <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
+            </div>
+          </li>
+          <li>
+            <input type="radio" name="tabs" id="tab4" />
+            <label for="tab4" role="tab" aria-selected="true" aria-controls="panel4" tabindex="0" >4학년</label>
+            <div v-for="lecture in lectures" id="tab-content4" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
+              <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
+              jjjjjj
+            </div>
+          </li>
+        </ul>
+ 
       </div>
     </div>
     <transition name="list">
@@ -33,7 +54,7 @@
 import Header from "./Header.vue";
 import Card from "./Card.vue";
 import Footer from "./Footer.vue";
-import testdata from "../assets/2018-04-08/전공/정책학과/정책학과 1학년.json";
+//import testdata from "../assets/2018-04-08/전공/정책학과/정책학과 1학년.json";
 
 export default {
   name: "grade",
@@ -46,13 +67,11 @@ export default {
     return {
       majorPage: true,
       isActive1: false,
-      testdata,
       isActive2: false,
       isActive3: false,
       isActive4: false,
       appFooter: false,
-      question: true,
-      marginTop: "25vh"
+      question: true
       //subjects: [
       //  {subjectName: '논리적사고', professor: '최원배', grade: '1', department: '정책학과'},
       //  {subjectName: '비판적사고', professor: '최원배', grade: '1', department: '정책학과'}
@@ -104,40 +123,40 @@ export default {
       }
       this.userLectures.push(subject);
     },
-    toggleSelected: function(number) {
-      //console.log(testdata);
-      switch (number) {
-        case 1:
-          this.isActive1 = !this.isActive1;
-          break;
-        case 2:
-          this.isActive2 = !this.isActive2;
-          break;
-        case 3:
-          this.isActive3 = !this.isActive3;
-          break;
-        case 4:
-          this.isActive4 = !this.isActive4;
-          break;
-      }
-      this.moveToTop();
-      if (
-        this.isActive1 == false &&
-        this.isActive4 == false &&
-        this.isActive3 == false &&
-        this.isActive2 == false
-      ) {
-        this.moveToDown();
-      }
-    },
-    moveToTop: function() {
-      this.marginTop = 0;
-      this.question = false;
-    },
-    moveToDown: function() {
-      this.marginTop = "25vh";
-      this.question = true;
-    },
+    // toggleSelected: function(number) {
+    //   //console.log(testdata);
+    //   switch (number) {
+    //     case 1:
+    //       this.isActive1 = !this.isActive1;
+    //       break;
+    //     case 2:
+    //       this.isActive2 = !this.isActive2;
+    //       break;
+    //     case 3:
+    //       this.isActive3 = !this.isActive3;
+    //       break;
+    //     case 4:
+    //       this.isActive4 = !this.isActive4;
+    //       break;
+    //   }
+    //   this.moveToTop();
+    //   if (
+    //     this.isActive1 == false &&
+    //     this.isActive4 == false &&
+    //     this.isActive3 == false &&
+    //     this.isActive2 == false
+    //   ) {
+    //     this.moveToDown();
+    //   }
+    // },
+    // moveToTop: function() {
+    //   this.marginTop = 0;
+    //   this.question = false;
+    // },
+    // moveToDown: function() {
+    //   this.marginTop = "25vh";
+    //   this.question = true;
+    // },
     modalClose: function(e) {
       var checkbox = document.getElementById("modal__trigger");
       if (checkbox.checked == true) {
@@ -173,7 +192,7 @@ ul {
 li {
   list-style: none;
 }
-.button {
+/* .button {
   background-color: #48a9a0;
   color: white;
   width: 80px;
@@ -183,14 +202,111 @@ li {
   font-size: 2rem;
   cursor: pointer;
   border-radius: 10px;
-}
-.button:hover {
+} */
+/* .button:hover {
   background-color: #6dbbb4;
 }
 .active,
 .active:hover {
   background-color: #ff8f9e;
+} */
+/* 탭 */
+
+.tabs {
+    float: none;
+    list-style: none;
+    position: relative;
+    margin: 80px 0 0 300px;
 }
+.tabs li {
+  float: left;
+  display: block;
+}
+.tabs input[type="radio"] {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+}
+.tabs label {
+  display: block;
+  padding: 14px 21px;
+  border-radius: 2px 2px 0 0;
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: uppercase;
+  background: #27ada0;
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.tabs label:hover {
+  background: #51c4b8;
+}
+.tabs .tab-content {
+  z-index: 3;
+  display: none;
+  overflow: hidden;
+  width: 100%;
+  font-size: 17px;
+  line-height: 25px;
+  padding: 25px;
+  position: relative;
+  /* position: absolute; */
+  top: 53px;
+  left: 0;
+  background: #2ab4a6;
+}
+/* 임시로 back에 panel붙여넣어놨는데, 더 해결해야함..ㅠㅠ */
+.back-panel {
+  z-index: 1;
+  overflow: hidden;
+  width: 140%;
+  height: 60vh;
+  font-size: 17px;
+  line-height: 25px;
+  padding: 25px;
+  position: absolute;
+  top: 53px;
+  left: 0;
+  background: #2ab4a6;
+}
+.tabs {
+  position: absolute;
+}
+.tabs [id^="tab"]:checked + label {
+  top: 0;
+  padding-top: 17px;
+  background: #2ab4a6;;
+}
+.tabs [id^="tab"]:checked ~ [id^="tab-content"] {
+  display: block;
+}
+
+p.link {
+  clear: both;
+  margin: 380px 0 0 15px;
+}
+p.link a {
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  color: #fff;
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #612e76;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+p.link a:hover {
+  background-color: #522764;
+}
+
 
 #panels {
   display: grid;
