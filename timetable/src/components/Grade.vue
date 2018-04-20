@@ -159,12 +159,10 @@ export default {
     // },
     modalClose: function(e) {
       var checkbox = document.getElementById("modal__trigger");
-      if (checkbox.checked == true) {
-        var modal = document.getElementById("modal_dialog");
-        console.log(modal);
-        console.log(e.currentTarget);
-        if (e.target !== modal) checkbox.checked = false;
-      }
+      ///if (checkbox.checked == true) {
+        //var modal = document.getElementById("modal_dialog");
+        //if (e.target !== modal) checkbox.checked = false;
+      //}
     }
   }
 };
