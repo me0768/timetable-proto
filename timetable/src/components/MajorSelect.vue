@@ -5,8 +5,11 @@
         <div class="group autocomplete">
           <input name="name" type="text" id="major-select" v-on:keyup.enter="transitionToGrade" required="required"/>
           <label for="name">전공이 무엇인가요?</label>
-        <div class="bar"></div>
-      </div>
+          <div class="bar"></div>
+        </div>
+        <div class="autocomplete">
+          {{autoComplete()}}
+        </div>
     </div>
   </div>
 </template>
@@ -31,6 +34,9 @@ export default {
       var major = document.getElementById('major-select').value
       this.$store.commit('updateMajor', major)
       document.location.href = "/#/grade";
+    },
+    autoComplete: function () {
+       return this.$store.state.majorList
     }
   },
   //data받아오기 test 
@@ -41,13 +47,14 @@ export default {
   //       console.log(result)
   //     })
   // }
-  // beforeCreate: function () {
-  //   const baseURI = 'http://localhost:8081/static'
-  //   this.$http.get(`${baseURI}/2018-04-08/전공/정책학과 1학년.json`)
-  //      .then((result) => {
-  //        console.log(result)
-  //      })
-  // }
+   beforeCreate: function () {
+     const baseURI = 'http://timetable.kiworkshop.org'
+     this.$http.get(`${baseURI}/api/서울/전공/목록.json`)
+       .then((result) => {
+          this.$store.commit('setMajorList', result.body)
+          console.log(result)
+        })
+   }
 }
 </script>
 

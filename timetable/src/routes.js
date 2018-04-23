@@ -6,7 +6,8 @@ import Grade from './components/Grade.vue'
 import Liberal from './components/LiberalStudies.vue'
 
 export default [
-	{ path: '/campus', component: Campus },
+    { path: '/', component: Campus },
+    { path: '/campus', component: Campus },
 	{ path: '/choice', component: Choice },
 	{ path: '/major', component: Major },
     { path: '/grade', component: Grade },

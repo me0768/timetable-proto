@@ -4,39 +4,34 @@
     <div id="grade">
       <h1 id="question" v-if="question">전공선택 페이지입니다</h1>
       <div id="grades" class="grades">
-        <!-- <button class="button" v-bind:class="{active : isActive1}" v-on:click="toggleSelected(1)">1</button>
-        <button class="button" v-bind:class="{active : isActive2}" v-on:click="toggleSelected(2)">2</button>
-        <button class="button" v-bind:class="{active : isActive3}" v-on:click="toggleSelected(3)">3</button>
-        <button class="button" v-bind:class="{active : isActive4}" v-on:click="toggleSelected(4)">4</button> -->
         <ul class="tabs" role="tablist">
           <li>
             <input type="radio" name="tabs" id="tab1" checked />
             <label for="tab1" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">1학년</label>
             <div class="back-panel"></div>
-            <div v-for="lecture in lectures" id="tab-content1" class="tab-content" role="tabpanel" aria-labelledby="firstGrade" aria-hidden="false">
+            <div v-if="isloading" v-for="lecture in lectures1" id="tab-content1" class="tab-content" role="tabpanel" aria-labelledby="firstGrade" aria-hidden="false">
               <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
             </div>
           </li>
           <li>
             <input type="radio" name="tabs" id="tab2" />
             <label for="tab2" role="tab" aria-selected="true" aria-controls="panel2" tabindex="0" >2학년</label>
-            <div v-for="lecture in lectures" id="tab-content2" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
-              <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>2학년ㅎ
+            <div v-if="isloading" v-for="lecture in lectures2" id="tab-content2" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
+              <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
             </div>
           </li>
           <li>
             <input type="radio" name="tabs" id="tab3" />
             <label for="tab3" role="tab" aria-selected="true" aria-controls="panel3" tabindex="0" >3학년</label>
-            <div v-for="lecture in lectures" id="tab-content3" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
+            <div v-if="isloading" v-for="lecture in lectures3" id="tab-content3" class="tab-content" role="tabpanel" aria-labelledby="thirdGrade" aria-hidden="false">
               <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
             </div>
           </li>
           <li>
             <input type="radio" name="tabs" id="tab4" />
             <label for="tab4" role="tab" aria-selected="true" aria-controls="panel4" tabindex="0" >4학년</label>
-            <div v-for="lecture in lectures" id="tab-content4" class="tab-content" role="tabpanel" aria-labelledby="secondGrade" aria-hidden="false">
+            <div v-if="isloading" v-for="lecture in lectures4" id="tab-content4" class="tab-content" role="tabpanel" aria-labelledby="forthGrade" aria-hidden="false">
               <card v-bind:lecture="lecture" v-on:lecture="addAndRemoveItem($event)"></card>
-              jjjjjj
             </div>
           </li>
         </ul>
@@ -54,7 +49,6 @@
 import Header from "./Header.vue";
 import Card from "./Card.vue";
 import Footer from "./Footer.vue";
-//import testdata from "../assets/2018-04-08/전공/정책학과/정책학과 1학년.json";
 
 export default {
   name: "grade",
@@ -66,10 +60,12 @@ export default {
   data() {
     return {
       majorPage: true,
-      isActive1: false,
-      isActive2: false,
-      isActive3: false,
-      isActive4: false,
+      isloading: false,
+      first: 0,
+      // isActive1: false,
+      // isActive2: false,
+      // isActive3: false,
+      // isActive4: false,
       appFooter: false,
       question: true
       //subjects: [
@@ -79,31 +75,33 @@ export default {
     };
   },
   computed: {
-    lectures() { 
-      // set에 담아 중복된 과목을 없애기
-      const set = new Set()
-      const lectures = this.$store.state.lectures
-      for(let i in lectures){
-        set.add(lectures[i].gwamokNm)
+    lectures1() { 
+      let obj = this.$store.getters.getSubjectLecture1
+      if(obj == undefined){
+        return undefined
+      } //vuex보다 먼저 계산되었다가 나중에 다시 계산되어서 일단 이렇게 처리.
+      return this.$store.getters.getSubjectLecture1[1]
+    },
+    lectures2(){
+      let obj = this.$store.getters.getSubjectLecture2
+      if(obj == undefined){
+        return undefined
       }
-      const subjectArr = Array.from(set)
-      // 과목-강좌 자료구조에 담기
-      const subjectLecture = new Array()
-      for(let i in subjectArr){
-        const lectureArr = []
-        for(let j in lectures){
-          if(subjectArr[i] == lectures[j].gwamokNm){
-            lectureArr.push(lectures[j])
-          }
-        }
-        const obj = new Object()
-        obj[subjectArr[i]] = lectureArr
-        subjectLecture.push(obj)
+      return this.$store.getters.getSubjectLecture2[2]
+    },
+    lectures3(){
+      let obj = this.$store.getters.getSubjectLecture3
+      if(obj == undefined){
+        return undefined
       }
-      console.log(Object.keys(subjectLecture[0])[0])//사회윤리사상사
-      console.log(subjectLecture[0]['사회윤리사상사'][0]['banNo'])
-      console.log("^^^^^")
-      return subjectLecture;
+      return this.$store.getters.getSubjectLecture3[3]
+    },
+    lectures4(){
+      let obj = this.$store.getters.getSubjectLecture4
+      if(obj == undefined){
+        return undefined
+      }
+      return this.$store.getters.getSubjectLecture4[4]
     },
     userLectures() {
       return this.$store.state.userLectures;
@@ -118,10 +116,24 @@ export default {
           if (this.userLectures.length == 0) {
             this.appFooter = false;
           }
-          return;
+          return
         }
       }
       this.userLectures.push(subject);
+    },
+    lectures: function(isuGrade) { 
+      // if(this.isloading == true && this.first < 4){
+      //   this.$store.commit('createSubjectLecture', isuGrade)
+      //   this.first++
+      //   console.log('---------------------------')
+      //   return this.$store.state.subjectLecture
+      // }else if(this.isloading == true) {
+      //   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~`')
+      //   return this.$store.state.subjectLecture
+      // }
+      // else{
+      //   return ['loading...']
+      // }
     },
     // toggleSelected: function(number) {
     //   //console.log(testdata);
@@ -164,7 +176,16 @@ export default {
         //if (e.target !== modal) checkbox.checked = false;
       //}
     }
-  }
+  },
+  beforeCreate: function () {
+     const baseURI = 'http://timetable.kiworkshop.org'
+     this.$http.get(`${baseURI}/api/${this.$store.state.campus}/전공/${this.$store.state.major}.json`)
+       .then((result) => {
+          this.$store.commit('createSubjectLecture', result.body)
+          this.isloading = true
+          console.log('beforeCreated//')
+        })
+   }
 };
 </script>
 
@@ -251,7 +272,7 @@ li {
   width: 100%;
   font-size: 17px;
   line-height: 25px;
-  padding: 25px;
+  padding: 5px 25px;
   position: relative;
   /* position: absolute; */
   top: 53px;

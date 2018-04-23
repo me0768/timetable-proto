@@ -5,7 +5,7 @@
             <ul id="breadcrumb">
                 <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i></a></li>
                 <li v-show="campusPage"><a href="#/campus"><span class="icon icon-beaker"> </span> {{campus}} Campus</a></li>
-                <li v-show="majorPage"><a href="#/major"><span class="icon icon-double-angle-right"></span> {{major}}전공</a></li>
+                <li v-show="majorPage"><a href="#/major"><span class="icon icon-double-angle-right"></span> {{major}}</a></li>
                 <li v-show="forth"><a href="#/"><span class="icon icon-rocket"> </span> Getting started</a></li>
                 <li v-show="fifth"><a href="#"><span class="icon icon-arrow-down"> </span> Download</a></li>
             </ul>

@@ -3,13 +3,12 @@
     <div id="image">
       <!-- <img src="../assets/professor.jpg" alt="professor"> -->
     </div>
-
     <!--과목 이름/교수님 : 클릭하면 모달창open -->
     <div id="text">
-        <span id="subjectName" @click="modalOpen">{{subject}}</span>
+        <span id="subjectName" @click="modalOpen">{{Object.keys(lecture)[0]}}</span>
         <i class="fa fa-plus" id="add" v-on:click="addAndRemoveItem" aria-hidden="true"></i>
-        <p>{{ lecture[subject][0]['daepyoGangsaNm'] }} 교수님</p>
-        <subject-detail v-bind:display="display" v-on:display="modalClose($event)"></subject-detail>
+        <!-- <p>{{ lecture[subject][0]['daepyoGangsaNm'] }} 교수님</p> -->
+        <subject-detail v-bind:display="display" v-bind:lecture="lecture" v-on:display="modalClose($event)"></subject-detail>
     </div>
   </div>
 </template>
@@ -36,10 +35,10 @@ export default {
   computed: {
     lectures() {
       return this.$store.state.lectures
-    },
-    subject(){
-      return Object.keys(this.lecture)[0]
     }
+    // subject(){
+    //   return Object.keys(this.lecture)[0]
+    // }
   },
   data () {
     return {
@@ -50,6 +49,7 @@ export default {
   methods: {
     modalOpen:function () {
       this.display = 'block'
+      console.log(this.lecture[this.subject])
     },
     modalClose: function (display) {
       this.display = display

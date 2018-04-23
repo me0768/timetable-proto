@@ -3,7 +3,7 @@
         <div class="expand-btn" @click="expand"> <i class="fa fa-expand" aria-hidden="true"></i></div>
 		<div class="subjects">
             <ul v-for='item in userLectures'>
-                <li>{{ item }} <i class="fa fa-times" v-on:click="addAndRemoveItem(item)" id="remove-btn" aria-hidden="true"></i></li>
+                <li>{{ item['gwamokNm'] }} <i class="fa fa-times" v-on:click="addAndRemoveItem(item)" id="remove-btn" aria-hidden="true"></i></li>
             </ul>
         </div>
         <button id="btn-comb">조합하기</button>

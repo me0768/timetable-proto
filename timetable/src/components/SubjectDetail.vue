@@ -2,7 +2,15 @@
   <div id="simpleModal" class="modal" v-bind:style="{'display': display }" v-on:click.self="modalClose">
     <div class="modal-content">
       <span class="closeBtn" @click="modalClose">&times;</span>
-      <p>Hello ...i m a modal</p>
+      <p>Hello {{ subjectName }}</p>
+      <div id="lecture-list" v-for="(lec, index) in lectureList">
+        <p> {{ lec.daepyoGangsaNm }} 교수님</p>
+        <p> {{ lec.banSosokNm }} </p>
+        <p>{{ lec.suupRoomNms }}</p>
+        <p>{{ lec.suupTimes }}</p>
+        <button id="select-lecture" @click="selectLecture(lec)">선택하기</button>
+      </div> 
+      
     </div>
   </div>
 <!--End of Modal -->
@@ -13,20 +21,39 @@
 
 export default {
   name: 'card',
+  computed: {
+    lectureList() {
+      console.log(this.lecture)
+      console.log(this.lecture[this.subjectName])
+      console.log("@#@@#")
+      return this.lecture[this.subjectName]
+    },
+    subjectName(){
+      return Object.keys(this.lecture)[0]
+    }
+  },
   data () {
       return {
-        subjectName: '논리적사고',
-        professorName: '최원배',
       }
   },
   methods: {
     modalClose: function () {
-      this.$emit('display', 'none');
+      this.$emit('display', 'none')
+    },
+    selectLecture: function (lecture) {
+      this.$emit('lecture', lecture)
+      this.$store.commit('addUserLectures', lecture)
     }
   },
   props: {
     display: {
       type: String
+    },
+    subject: {
+      type: String
+    },
+    lecture: {
+      type: Object
     }
   }
 }
@@ -47,7 +74,7 @@ export default {
   background-color: rgba(0,0,0,0.3);
 }
 .modal-content{
-  background-color: #f4f4f4;
+  background-color: #dbfdf8;
   margin : 20% auto;
   padding: 20px;
   width: 70%;
@@ -62,6 +89,11 @@ export default {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+#lecture-list {
+  width: 500px;
+  display: inline-block;
+  background: white;
 }
 
 /* fade effect */
