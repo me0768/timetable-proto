@@ -48,7 +48,7 @@ export default {
   //     })
   // }
    beforeCreate: function () {
-     const baseURI = 'http://timetable.kiworkshop.org'
+     const baseURI = ''
      this.$http.get(`${baseURI}/api/서울/전공/목록.json`)
        .then((result) => {
           this.$store.commit('setMajorList', result.body)
